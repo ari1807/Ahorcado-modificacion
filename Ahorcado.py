@@ -2,7 +2,7 @@ import random
 import string
 
 HANGMAN_PICS = ["""
-  +---+
+  +---+          
       |
       |
       |
@@ -55,25 +55,24 @@ PALABRAS = {'Colores': 'rojo naranja amarillo verde azul indigo violeta blanco n
 'Animales': 'murcielago oso castor gato perro cangrejo ciervo perro burro pato aguila pez rana cabra sanguijuela leon lagartija mono alce raton rata nutria buho panda serpiente conejo tiburon oveja zorrillo calamar tigre pavo tortuga weasel ballena zorro zebra'.split()}
 
 
-def getPalabraRandom (dictPalabras):
-
+def getPalabraRandom(dict_palabras):
     """ Esta funcion devuelve un string aleatorio desde el diccionario de strings pasado como parametro, como tambien su clave."""
     
     # Primero, seleccionamos una clave aleatoria del diccionario:
-    clave = random.choice(list(dictPalabras.keys()))
+    clave = random.choice(list(dict_palabras.keys()))
 
     # Despues, seleccionamos una palabra aleatoria de la lista  contenida en la clave del diccionario:
-    indice = random.randint(0, len(dictPalabras[clave]) - 1)
+    indice = random.randint(0, len(dict_palabras[clave])-1)
 
-    return [dictPalabras[clave][indice], clave]
-
+    return [dict_palabras[clave][indice], clave]
 
 def mostrarTabla(letras_incorrectas, letras_correctas, palabra_secreta):
+    """ Esta funcion muestra en pantalla el dibujo, las letras incorrectas y los espacios con letras adivinadas de la palabra secreta."""
 
     print(dibujos[len(letras_incorrectas)])
     print()
 
-    print('Intentos fallidos: ', end=' ')
+    print('Intentos fallidos:', end=' ')
     for letra in letras_incorrectas:
         print(letra, end=' ')
     print()
@@ -90,10 +89,9 @@ def mostrarTabla(letras_incorrectas, letras_correctas, palabra_secreta):
         print(letra, end=' ')
     print()
 
-
 def getIntento(letras_intentadas):
-
-    # Devuelve la letra que el jugador ingreso. Esta funcion se asegura de que solo se haya ingresado una letra, y no algo mas.
+    """ Esta funcion devuelve la letra que el jugador ingreso. Se asegura de que solo se haya ingresado una letra, y no algo mas. """
+    
     while True:
         print('Ingresa una letra.')
         intento = input().lower()
@@ -106,26 +104,22 @@ def getIntento(letras_intentadas):
         else:
             return intento
 
-
-def jugarDenuevo():
-
-    # Esta funcion devuelve True si el jugador quiere jugar otra vez, sino devuelve False.
+def jugarOtraVez():
+    """ Esta funcion devuelve True si el jugador quiere jugar otra vez, sino devuelve False. """
+    
     print('Queres jugar otra vez? (si o no)')
     return input().lower().startswith('s')
 
-
 def darPista (palabra_secreta, letras_correctas, pistas):
-
-    # Devuelve una letra de la palabra secreta que NO este en las letras adivinadas si pide la pista, sino devuelve ''.
+    """ Devuelve una letra de la palabra secreta que NO este en las letras adivinadas si el jugador pide la pista, sino devuelve ''. """
+    
     letra_pista = ''
     print(f'Tenes {pistas} pistas.')
-    if input('Queres una pista? (si o no)').lower().startswith('s'):
+    if input('Queres una pista? (si/no): ').lower().startswith('s'):
         letra_pista = palabra_secreta[random.randint(0, len(palabra_secreta)-1)]
         while letra_pista in letras_correctas:
             letra_pista = palabra_secreta[random.randint(0, len(palabra_secreta)-1)]
     return letra_pista
-
-
 
 
 print('A H O R C A D O')
@@ -183,7 +177,7 @@ while True:
             letras_incorrectas = letras_incorrectas + intento
             
             # Chequear si el jugador intento demasiadas veces y perdio.
-            if (len(letras_incorrectas) == len(dibujos) - 1):
+            if (len(letras_incorrectas) == len(dibujos)-1):
                 mostrarTabla(letras_incorrectas, letras_correctas, palabra_secreta)
                 print(f'Te quedaste sin intentos!\nDespues de {len(letras_incorrectas)}  intentos fallidos y {len(letras_correctas)} letras adivinadas, la palabra era: {palabra_secreta}')
                 juego_terminado = True
@@ -194,7 +188,7 @@ while True:
             break
 
     # Pregunta al jugador si quiere jugar de nuevo o salir del juego.    
-    if jugarDenuevo():
+    if jugarOtraVez():
         continue
     else:
         break
