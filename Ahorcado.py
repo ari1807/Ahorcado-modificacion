@@ -55,18 +55,18 @@ PALABRAS = {'Colores': 'rojo naranja amarillo verde azul indigo violeta blanco n
 'Animales': 'murcielago oso castor gato perro cangrejo ciervo perro burro pato aguila pez rana cabra sanguijuela leon lagartija mono alce raton rata nutria buho panda serpiente conejo tiburon oveja zorrillo calamar tigre pavo tortuga weasel ballena zorro zebra'.split()}
 
 
-def getPalabraRandom(dict_palabras):
+def get_palabra_random(dict_palabras):
     """ Esta funcion devuelve un string aleatorio desde el diccionario de strings pasado como parametro, como tambien su clave."""
     
     # Primero, seleccionamos una clave aleatoria del diccionario:
     clave = random.choice(list(dict_palabras.keys()))
 
-    # Despues, seleccionamos una palabra aleatoria de la lista  contenida en la clave del diccionario:
+    # Despues, seleccionamos una palabra aleatoria de la lista contenida en la clave del diccionario:
     indice = random.randint(0, len(dict_palabras[clave])-1)
 
     return [dict_palabras[clave][indice], clave]
 
-def mostrarTabla(letras_incorrectas, letras_correctas, palabra_secreta):
+def mostrar_tabla(letras_incorrectas, letras_correctas, palabra_secreta):
     """ Esta funcion muestra en pantalla el dibujo, las letras incorrectas y los espacios con letras adivinadas de la palabra secreta."""
 
     print(dibujos[len(letras_incorrectas)])
@@ -89,7 +89,7 @@ def mostrarTabla(letras_incorrectas, letras_correctas, palabra_secreta):
         print(letra, end=' ')
     print()
 
-def getIntento(letras_intentadas):
+def get_intento(letras_intentadas):
     """ Esta funcion devuelve la letra que el jugador ingreso. Se asegura de que solo se haya ingresado una letra, y no algo mas. """
     
     while True:
@@ -104,13 +104,13 @@ def getIntento(letras_intentadas):
         else:
             return intento
 
-def jugarOtraVez():
+def jugar_otra_vez():
     """ Esta funcion devuelve True si el jugador quiere jugar otra vez, sino devuelve False. """
     
     print('Queres jugar otra vez? (si o no)')
     return input().lower().startswith('s')
 
-def darPista (palabra_secreta, letras_correctas, pistas):
+def dar_pista (palabra_secreta, letras_correctas, pistas):
     """ Devuelve una letra de la palabra secreta que NO este en las letras adivinadas si el jugador pide la pista, sino devuelve ''. """
     
     letra_pista = ''
@@ -145,22 +145,22 @@ while True:
 
     letras_incorrectas = ''
     letras_correctas = ''
-    palabra_secreta, conjunto_secreto = getPalabraRandom(PALABRAS)
+    palabra_secreta, conjunto_secreto = get_palabra_random(PALABRAS)
     juego_terminado = False
 
     while True:
         print('La palabra secreta esta en el grupo: ' + conjunto_secreto)
-        mostrarTabla(letras_incorrectas, letras_correctas, palabra_secreta)
+        mostrar_tabla(letras_incorrectas, letras_correctas, palabra_secreta)
 
         # Deja al jugador escribir una letra o elegir una pista.
         if pistas != 0:
-            intento = darPista(palabra_secreta, letras_correctas, pistas)
+            intento = dar_pista(palabra_secreta, letras_correctas, pistas)
             if (intento == ''):
-                intento = getIntento(letras_incorrectas + letras_correctas)
+                intento = get_intento(letras_incorrectas + letras_correctas)
             else:
                 pistas = pistas - 1   
         else:
-            intento = getIntento(letras_incorrectas + letras_correctas)
+            intento = get_intento(letras_incorrectas + letras_correctas)
             
         if intento in palabra_secreta:
             letras_correctas = letras_correctas + intento
@@ -178,7 +178,7 @@ while True:
             
             # Chequear si el jugador intento demasiadas veces y perdio.
             if (len(letras_incorrectas) == len(dibujos)-1):
-                mostrarTabla(letras_incorrectas, letras_correctas, palabra_secreta)
+                mostrar_tabla(letras_incorrectas, letras_correctas, palabra_secreta)
                 print(f'Te quedaste sin intentos!\nDespues de {len(letras_incorrectas)}  intentos fallidos y {len(letras_correctas)} letras adivinadas, la palabra era: {palabra_secreta}')
                 juego_terminado = True
             
@@ -188,7 +188,7 @@ while True:
             break
 
     # Pregunta al jugador si quiere jugar de nuevo o salir del juego.    
-    if jugarOtraVez():
+    if jugar_otra_vez():
         continue
     else:
         break
